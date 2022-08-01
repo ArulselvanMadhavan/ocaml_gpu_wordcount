@@ -1,5 +1,6 @@
 (library
  (name ocaml_gpu_wordcount)
+ (libraries ctypes.foreign)
  (preprocess
   (pps ppx_jane))
  (install_c_headers wc)

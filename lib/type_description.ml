@@ -24,6 +24,14 @@ module Types (F : Ctypes.TYPE) = struct
     let name = "futhark_context_config"
   end)
 
+  module Futhark_context = Voidp (struct
+    let name = "futhark_context"
+  end)
+
+  module Futhark_u8_1d = Voidp (struct
+    let name = "futhark_u8_1d"
+  end)
+
   let futhark_success = constant "FUTHARK_SUCCESS" int
   let futhark_program_error = constant "FUTHARK_PROGRAM_ERROR" int
   let futhark_out_of_memory = constant "FUTHARK_OUT_OF_MEMORY" int
