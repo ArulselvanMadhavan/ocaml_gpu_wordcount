@@ -1,0 +1,41 @@
+(library
+ (name ocaml_gpu_wordcount)
+ (install_c_headers wc)
+ (foreign_archives wc)
+ (flags
+  (:standard -w -9-27))
+ (ctypes
+  (external_library_name libwc)
+  (deps libwc.h dllwc.so libwc.a)
+  (build_flags_resolver
+   (vendored
+    (c_flags
+     ("-Ilib" "-I."))))
+  (headers
+   (include "libwc.h"))
+  (type_description
+   (instance Type)
+   (functor Type_description))
+  (function_description
+   (concurrency unlocked)
+   (instance Function)
+   (functor Function_description))
+  (generated_types Types_generated)
+  (generated_entry_point C)))
+
+(data_only_dirs libwc)
+
+(rule
+ (deps
+  (source_tree libwc))
+ (targets libwc.a dllwc.so libwc.h)
+ (action
+  (no-infer
+   (progn
+    (chdir
+     libwc
+     (progn
+      (run make libwc-c)))
+    (copy libwc/libwc-c.a libwc.a)
+    (copy libwc/libwc-c.so dllwc.so)
+    (copy libwc/libwc-c.h libwc.h)))))

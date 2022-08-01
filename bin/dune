@@ -1,0 +1,4 @@
+(executable
+ (public_name ocaml_gpu_wordcount)
+ (name main)
+ (libraries ocaml_gpu_wordcount))
