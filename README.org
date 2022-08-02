@@ -1,1 +1,25 @@
 * Ocaml - GPU wordcount example
+A simple wordcount example using Futhark and OCaml
+** OCaml-GPU wordcount(using OpenCL)
+#+begin_src bash
+futhark opencl --library libwc.fut -o libwc-opencl
+gcc -c libwc-opencl.c -fPIC -o libwc-opencl.o -std=c99 -O3 -lm -lOpenCL -DOPENCL
+gcc -shared libwc-opencl.o -o libwc-opencl.so
+ar crs libwc-opencl.a libwc-opencl.o
+Execution time: 0.021772s           
+350387964
+59167531
+6936678
+#+end_src
+** Ocaml-C wordcount
+   #+begin_src bash
+arul@arul-Serval-WS ~/d/ocaml_gpu_wordcount (main)> dune exec ./bin/main.exe
+futhark c --library libwc.fut -o libwc-c
+gcc -c libwc-c.c -fPIC -o libwc-c.o -std=c99 -O3 -lm
+gcc -shared libwc-c.o -o libwc-c.so
+ar crs libwc-c.a libwc-c.o
+Execution time: 2.701808s           
+350387964
+59167531
+6936678
+   #+end_src

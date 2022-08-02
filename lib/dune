@@ -38,7 +38,7 @@
     (chdir
      libwc
      (progn
-      (run make libwc-c)))
-    (copy libwc/libwc-c.a libwc.a)
-    (copy libwc/libwc-c.so dllwc.so)
-    (copy libwc/libwc-c.h libwc.h)))))
+      (run make libwc-opencl)))
+    (copy libwc/libwc-opencl.a libwc.a)
+    (copy libwc/libwc-opencl.so dllwc.so)
+    (copy libwc/libwc-opencl.h libwc.h)))))
