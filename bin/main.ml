@@ -9,9 +9,11 @@ let load_file filename =
   Bigarray.Array1.dim u8_array1, u8ptr
     
 let () =
-  (* let device_name = Option.fold ~none:"" ~some:Fun.id @@ Sys.getenv_opt "OPENCL_DEVICE" in
-   * Printf.printf "%s\n" device_name; *)
+  let device_name = Option.fold ~none:"Apple M1" ~some:Fun.id @@ Sys.getenv_opt "OPENCL_DEVICE" in
+  Printf.printf "%s\n" device_name;
+      (* futhark_context_config_set_device(cfg, getenv("OPENCL_DEVICE")); *)
   let cfg = C.Function.futhark_context_config_new () in
+  C.Function.futhark_context_config_set_device cfg device_name;
   let ctx = C.Function.futhark_context_new cfg in
   let _arr = C.Function.futhark_new_u8_1d ctx in
   let size, data_ptr = load_file "huge.txt" in

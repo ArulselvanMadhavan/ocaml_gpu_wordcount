@@ -9,8 +9,8 @@
   (deps libwc.h dllwc.so libwc.a)
   (build_flags_resolver
    (vendored
-    (c_flags -I lib -I . -std=c99 -O3 -lm)
-    (c_library_flags -lOpenCL)))
+    (c_flags -I lib -I . -std=c99 -O3 -lm -framework OpenCL)
+    (c_library_flags -framework OpenCL)))
   (headers
    (include "libwc.h"))
   (type_description

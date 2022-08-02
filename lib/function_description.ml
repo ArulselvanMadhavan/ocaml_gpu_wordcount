@@ -35,4 +35,7 @@ module Functions (F : FOREIGN) = struct
   let futhark_free_u8_1d =
     foreign "futhark_free_u8_1d"
       (Types.Futhark_context.t @-> Types.Futhark_u8_1d.t @-> returning int)
+
+  let futhark_context_config_set_device =
+    foreign "futhark_context_config_set_device" (Types.Futhark_context_config.t @-> string @-> returning void)
 end

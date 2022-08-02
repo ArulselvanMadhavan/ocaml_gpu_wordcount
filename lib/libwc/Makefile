@@ -49,7 +49,7 @@ libwc-opencl.o: libwc-opencl.c
 	gcc -c libwc-opencl.c -fPIC -o libwc-opencl.o $(CFLAGS) $(OPENCL_LDFLAGS) -DOPENCL
 
 libwc-opencl.so: libwc-opencl.o
-	gcc -shared libwc-opencl.o -o libwc-opencl.so
+	gcc -shared libwc-opencl.o -o libwc-opencl.so $(CFLAGS) $(OPENCL_LDFLAGS) -DOPENCL
 
 libwc-opencl.a: libwc-opencl.o
 	ar crs libwc-opencl.a libwc-opencl.o
