@@ -9,7 +9,8 @@ let load_file filename =
   Bigarray.Array1.dim u8_array1, u8ptr
     
 let () =
-  let i = C.Function.futhark_get_tuning_param_count () in
+  (* let device_name = Option.fold ~none:"" ~some:Fun.id @@ Sys.getenv_opt "OPENCL_DEVICE" in
+   * Printf.printf "%s\n" device_name; *)
   let cfg = C.Function.futhark_context_config_new () in
   let ctx = C.Function.futhark_context_new cfg in
   let _arr = C.Function.futhark_new_u8_1d ctx in
@@ -21,10 +22,13 @@ let () =
   let chars = Ctypes.allocate Ctypes.int32_t Int32.zero in
   let words = Ctypes.allocate Ctypes.int32_t Int32.zero in
   let lines = Ctypes.allocate Ctypes.int32_t Int32.zero in
+  let start = Unix.gettimeofday () in
   let result = C.Function.futhark_entry_wc ctx chars words lines arr in
+  let stop = Unix.gettimeofday () in
+  Printf.printf "Execution time: %fs\n%!" (stop -. start);
   let _ = C.Function.futhark_free_u8_1d ctx arr in
   C.Function.futhark_context_free ctx;
   C.Function.futhark_context_config_free cfg;
   let results = List.map Ctypes.( !@ ) [ chars; words; lines ] in
   List.iter (fun i -> Printf.printf "%d\n" @@ Int32.to_int i) results;
-  Printf.printf "Futhark param count:%d|%d\n" i result
+  Printf.printf "Futhark param count:%d\n" result

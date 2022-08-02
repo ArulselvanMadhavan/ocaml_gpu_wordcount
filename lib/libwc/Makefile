@@ -7,7 +7,7 @@ else
 OPENCL_LDFLAGS?=-lOpenCL
 endif
 
-.PHONY: clean run libwc-c
+.PHONY: clean run libwc-c libwc-opencl
 
 all: wc-c wc-opencl huge.txt
 
@@ -35,7 +35,7 @@ clean:
 	rm -f wc-* libwc-*.c libwc-*.h libwc-*.a libwc-*.so libwc-*.o libwc-*.json huge.txt
 
 libwc-c.o: libwc-c.c
-	gcc -c libwc-c.c -fPIC -o libwc-c.o
+	gcc -c libwc-c.c -fPIC -o libwc-c.o $(CFLAGS)
 
 libwc-c.so: libwc-c.o
 	gcc -shared libwc-c.o -o libwc-c.so
@@ -44,3 +44,14 @@ libwc-c.a: libwc-c.o
 	ar crs libwc-c.a libwc-c.o
 
 libwc-c: clean libwc-c.so libwc-c.a
+
+libwc-opencl.o: libwc-opencl.c
+	gcc -c libwc-opencl.c -fPIC -o libwc-opencl.o $(CFLAGS) $(OPENCL_LDFLAGS) -DOPENCL
+
+libwc-opencl.so: libwc-opencl.o
+	gcc -shared libwc-opencl.o -o libwc-opencl.so
+
+libwc-opencl.a: libwc-opencl.o
+	ar crs libwc-opencl.a libwc-opencl.o
+
+libwc-opencl: clean libwc-opencl.so libwc-opencl.a

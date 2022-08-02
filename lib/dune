@@ -1,8 +1,5 @@
 (library
- (name ocaml_gpu_wordcount)
- (libraries ctypes.foreign)
- (preprocess
-  (pps ppx_jane))
+ (name ocaml_gpu_wordcount) 
  (install_c_headers wc)
  (foreign_archives wc)
  (flags
@@ -12,8 +9,8 @@
   (deps libwc.h dllwc.so libwc.a)
   (build_flags_resolver
    (vendored
-    (c_flags
-     ("-Ilib" "-I."))))
+    (c_flags -I lib -I . -std=c99 -O3 -lm)
+    (c_library_flags -lOpenCL)))
   (headers
    (include "libwc.h"))
   (type_description
@@ -24,7 +21,10 @@
    (instance Function)
    (functor Function_description))
   (generated_types Types_generated)
-  (generated_entry_point C)))
+  (generated_entry_point C))
+ (libraries ctypes.foreign)
+ (preprocess
+  (pps ppx_jane)))
 
 (data_only_dirs libwc)
 
